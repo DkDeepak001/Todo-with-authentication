@@ -77,6 +77,9 @@ const updateTask = async (e) => {
 }
 
 
+async function deleteTask(id){
+  const deleteTask = await axios.delete(`http://localhost:5000/delete/${id}`); 
+}
 
 
 
@@ -111,13 +114,15 @@ function updateDate(e){
 
      <div className='display list'>
       <div className='incompletedList'>
-        {getData ? getData.map(e=>(<>
+        {getData ? getData.map((e,index)=>(<>
           <p>{e.taskName} | {e.dueDate}</p>
+          <button onClick={()=>deleteTask(e._id)}>delete</button>
           </>
           )):"no Data found"}      </div>
       <div className='upcomingList'>
       </div>
-      <div className='completedList'></div>
+      <div className='completedList'>
+      </div>
      </div>
     </div>
   );

@@ -48,4 +48,13 @@ exports.Read = async() => {
     } catch (error) {
         
     }
-   }
+}
+
+exports.Delete = async(id)=>{
+    try {
+        const query = await Task.findByIdAndRemove(id);
+        return query;
+    } catch (error) {
+        console.log(error)
+    }
+}
