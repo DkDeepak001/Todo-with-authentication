@@ -1,0 +1,20 @@
+ToDo list 
+
+Functionality
+    1.add task to db
+    2.read
+    3.update
+    4.delete
+    5.add reminder time and completeion time
+    7.filter list
+    8.display time and data
+    9.display total task
+    10.add login and register Function
+    11.jwt and bcrypt Functionality
+    12.show completed task 
+    13.show incompleted task
+    14.show upcoming task 
+
+
+
+
