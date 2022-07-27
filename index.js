@@ -15,8 +15,8 @@ app.use(bodyParser.json())
 
 //defining authentication routes for homepage 
 app.route("/")
-    .get((req,res) => {
-        res.status(200).json( {status: 'Home'} )
+    .get(async (req,res) => {
+        res.status(200).json( await CRUD.Read() )
     })
     .post((req,res) => {
         

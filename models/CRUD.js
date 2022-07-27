@@ -38,4 +38,14 @@ exports.Create = async(data) => {
    } catch (error) {
        return (error)
    }
+
+   
 } 
+exports.Read = async() => {
+    try {
+        const query = await Task.find();
+        return (query)
+    } catch (error) {
+        
+    }
+   }
