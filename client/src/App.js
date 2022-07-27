@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import './App.css';
 
+ 
 function App() {
   const dateToString = () => {
     var date = new Date(),
@@ -12,6 +13,21 @@ function App() {
     return ([date.getFullYear(), mnth, day].join("-"));
   }
   
+
+
+ const [getData ,setGetData] = useState();
+
+ useEffect(()=>{
+  const retriveData = async ()=>{
+    const res = await axios.get("http://localhost:5000/")
+    const resp = res.data;
+    setGetData(resp);
+
+  }
+  retriveData();
+ })
+
+
   const [currentDate ,setCurrentDate] = useState(dateToString());
   const [task,setTask] = useState({
     userName:"Admin",
@@ -51,7 +67,7 @@ const updateTask = async (e) => {
             dueDate : currentDate
           }
         })
-        alert("added");
+
       }else{
         alert("error")
       }
@@ -59,6 +75,8 @@ const updateTask = async (e) => {
     }
   }
 }
+
+
 
 
 
@@ -92,8 +110,13 @@ function updateDate(e){
      </form>
 
      <div className='display list'>
-      <div className='incompletedList'></div>
-      <div className='upcomingList'></div>
+      <div className='incompletedList'>
+        {getData ? getData.map(e=>(<>
+          <p>{e.taskName} | {e.dueDate}</p>
+          </>
+          )):"no Data found"}      </div>
+      <div className='upcomingList'>
+      </div>
       <div className='completedList'></div>
      </div>
     </div>
