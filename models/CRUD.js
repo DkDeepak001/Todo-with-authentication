@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //creating mongoose connection and new collection
-mongoose.connect("mongodb://172.21.4.247:27017/mern_todo");
+mongoose.connect("mongodb://172.21.11.12:27017/mern_todo");
 
 //creating new schema for created collection
 const newTaskSchema = new mongoose.Schema({
@@ -54,6 +54,15 @@ exports.Delete = async(id)=>{
     try {
         const query = await Task.findByIdAndRemove(id);
         return query;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+exports.Upadte = async(id,status)=>{
+    try {
+        const query = await Task.findOneAndUpdate({_id:id},{status : status});
+        console.log(query);
     } catch (error) {
         console.log(error)
     }

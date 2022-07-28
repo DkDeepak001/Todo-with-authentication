@@ -3,6 +3,10 @@ import { v4 as uuidv4 } from 'uuid';
 import TextField from '@mui/material/TextField';
 import axios from 'axios';
 import './App.css';
+import Button from '@mui/material/Button';
+import Swal from 'sweetalert2';
+
+
 
  
 function App() {
@@ -77,11 +81,37 @@ const updateTask = async (e) => {
 }
 
 
-async function deleteTask(id){
-  const deleteTask = await axios.delete(`http://localhost:5000/delete/${id}`); 
+function deleteTask(id){
+  Swal.fire({
+    title: 'Have you complete!',
+    showCancelButton: true,
+    confirmButtonText: 'completed',
+    denyButtonText: `cancel`,
+  }).then((result) => {
+    /* Read more about isConfirmed, isDenied below */
+    if (result.isConfirmed) {
+      Swal.fire('Task completed', '', 'success')
+      del();
+    } else if (result.isDenied) {
+      Swal.fire('Changes are not saved', '', 'info')
+    }
+  })
+  function del(){
+    const deleteTask = axios.delete(`http://localhost:5000/delete/${id}`); 
+
+  }
 }
 
-
+async function updateStatus(id , status){
+  const currentStatus = (status !== 'true');
+  const changeToComplete = await axios.patch(`http://localhost:5000/update/${id}/${currentStatus}`)
+  const retriveData = async ()=>{
+    const res = await axios.get("http://localhost:5000/")
+    const resp = res.data;
+    setGetData(resp);
+  }
+  retriveData();
+}
 
 function updateDate(e){
   const selectedDueDate = e.target.value;
@@ -95,8 +125,8 @@ function updateDate(e){
   return (
     <div className="App">
      <h2>ToDo List </h2>
-     <form  >
-        <input type="text" name="task" value={task.taskName} onChange={updateTaskName} placeholder="Enter a task"/>
+     <form  className='form'>
+     <TextField  label="Enter a task" variant="outlined" type="text" name="task" value={task.taskName} onChange={updateTaskName}  />
         <TextField
             id="date"
             label="select Due Date"
@@ -109,16 +139,18 @@ function updateDate(e){
             }}
             onChange={updateDate}
         />
-        <button type='submit' onClick={updateTask}>+</button>
+        <Button variant="contained" size="large" color="success"  type='submit' onClick={updateTask}>Contained</Button>
+
      </form>
 
      <div className='display list'>
       <div className='incompletedList'>
-        {getData ? getData.map((e,index)=>(<>
-          <p>{e.taskName} | {e.dueDate}</p>
-          <button onClick={()=>deleteTask(e._id)}>delete</button>
-          </>
-          )):"no Data found"}      </div>
+        {getData  ? getData.map((e,index)=>(<div className='listStyle'>
+          <p>{e.taskName}</p>
+          <p> {e.dueDate}</p>
+          <Button variant="contained" sx={{width:20,height:20,fontSize:10}} color="success" onClick={()=>deleteTask(e._id)}>complete</Button>
+          </div>
+          )):"no Data found"}</div>
       <div className='upcomingList'>
       </div>
       <div className='completedList'>

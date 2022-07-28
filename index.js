@@ -32,10 +32,17 @@ app.route("/addTask")
 
 //defining authentication routes for delete 
 app.route("/delete/:id")
-.delete(async(req,res) => {
-    const id = (req.params.id);
-    res.status(200).json({id: await CRUD.Delete(id)});
-})
+    .delete(async(req,res) => {
+        const id = (req.params.id);
+        res.status(200).json({id: await CRUD.Delete(id)});
+    })
+app.route("/update/:id/:status")
+    .patch(async(req,res) => {
+        const id = (req.params.id);
+        const status = (req.params.status);
+        CRUD.Upadte(id,status)
+        res.status(200).json({id: id , status  : status});
+    })
 
 
 
