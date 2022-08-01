@@ -28,7 +28,7 @@ function Register(){
       form_email : email
     }
     const request = await axios.post("http://localhost:5000/register", data);
-    
+    console.log(request.data);
     
   }
   

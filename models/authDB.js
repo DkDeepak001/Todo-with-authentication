@@ -19,17 +19,27 @@ exports.Register = async (data) => {
         const username = await data.form_userName;
         const password = await data.form_password;
         const email = await data.form_email;
-        bcrypt.hash(password, saltRounds,async function(err, hash) {
-            const createuser = new User({
-                userName:username,
-                email:email,
-                password:hash
-           })
-        
-           await createuser.save();
-           return true
-        });
- 
+        const findQuery = await User.findOne({userName:username});
+        if(findQuery){
+            return "User already available";
+        }else{
+           const findEmail = await User.findOne({email:email})
+           if(findEmail){
+            return "email already taken";
+           }else{
+            bcrypt.hash(password, saltRounds,async function(err, hash) {
+                const createuser = new User({
+                    userName:username,
+                    email:email,
+                    password:hash
+               })
+            
+               await createuser.save();
+               
+            });
+           }
+        }
+       
     
     
        } catch (error) {
