@@ -2,7 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const axios = require("axios");
 const cors = require("cors");
-const CRUD = require("./models/CRUD")
+const CRUD = require("./models/CRUD");
+const authDB = require("./models/authDB");
 
 const app = express();
 app.use(cors());
@@ -23,6 +24,18 @@ app.route("/")
         res.status(200).json( {name: req.body.name , password:req.body.password } )
     })
 
+
+app.route("/login")
+    .post(async(req,res) => {
+        console.log(req.body.from_name);
+        console.log(req.body.from_password);
+    })
+
+ app.route("/register")
+    .post(async(req,res) => {
+        res.status(200).json(await authDB.Register(req.body));
+
+    })
 
 //defining authentication routes for homepage 
 app.route("/addTask")
