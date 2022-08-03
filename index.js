@@ -27,8 +27,8 @@ app.route("/")
 
 app.route("/login")
     .post(async(req,res) => {
-        console.log(req.body.from_name);
-        console.log(req.body.from_password);
+        res.status(200).json(await authDB.Login(req.body));
+
     })
 
  app.route("/register")

@@ -3,7 +3,7 @@ const bcrypt = require("bcrypt");
 const saltRounds = 10;
 
 //creating mongoose connection and new collection
-mongoose.connect("mongodb://172.21.0.145:27017/mern_todo");
+mongoose.connect("mongodb://192.168.178.229:27017/mern_todo");
 
 const newUserSchema = new mongoose.Schema({
     userName:String,
@@ -32,17 +32,31 @@ exports.Register = async (data) => {
                     userName:username,
                     email:email,
                     password:hash
-               })
-            
+                })            
                await createuser.save();
-               
             });
-           }
+          }
+        }   
+      } catch (error) {
+        return (error)
+    }
+}
+
+exports.Login = async (data) => {
+    try {
+
+        const username = await data.form_name;
+        const password = await data.form_password;
+        
+        const findQuery = await User.findOne({userName:username});
+        if(findQuery === null){
+            return "Username not avaliable";
+        }else{
+           const userRes = await bcrypt.compare(password, findQuery.password);
+            return await userRes;
         }
-       
-    
-    
-       } catch (error) {
+
+    } catch (error) {
            return (error)
        }
     

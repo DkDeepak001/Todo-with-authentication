@@ -21,11 +21,15 @@ function Register(){
  async function submitForm(e){
     e.preventDefault();
     const data = {
-      from_name: userName,
-      from_password: password
+      form_name: userName,
+      form_password: password
     };
     const request = await axios.post("http://localhost:5000/login", data);
-    
+     if(request.data){
+      alert("correct")
+     }else{
+      alert("incorrect username and passworc");
+     }
   }
 
   

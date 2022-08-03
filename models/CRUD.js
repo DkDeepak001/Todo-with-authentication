@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 //creating mongoose connection and new collection
-mongoose.connect("mongodb://172.21.0.145:27017/mern_todo");
+mongoose.connect("mongodb://192.168.178.229:27017/mern_todo");
 
 //creating new schema for created collection
 const newTaskSchema = new mongoose.Schema({
